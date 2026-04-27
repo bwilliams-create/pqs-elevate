@@ -2,24 +2,27 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>OAuth Callback</title>
+  <title>Authentication Complete</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; }
+  </style>
 </head>
 <body>
   <h2>Authentication Complete</h2>
   <p>You may now close this window.</p>
 
   <script>
-    // Extract ?code=... from the URL
+    // Extract the authorization code from the URL
     const params = new URLSearchParams(window.location.search);
     const authCode = params.get("code");
 
-    // Send the code to your local desktop app
+    // Send the code to the desktop application
     if (authCode) {
       fetch("http://localhost:5173/oauth/callback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: authCode })
-      });
+      }).catch(err => console.error("Failed to send code:", err));
     }
   </script>
 </body>
