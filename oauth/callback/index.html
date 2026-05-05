@@ -18,12 +18,14 @@
 
     // Send the code to the desktop application
     if (authCode) {
-      fetch("http://localhost:5173/oauth/callback", {
+      fetch("http://localhost:5000/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: authCode })
-      }).catch(err => console.error("Failed to send code:", err));
+      });
     }
+    
+    document.body.innerText = "You can close this window.";
   </script>
 </body>
 </html>
