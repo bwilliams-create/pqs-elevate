@@ -11,21 +11,33 @@
   <h2>Authentication Complete</h2>
   <p>You may now close this window.</p>
 
-  <script>
-    // Extract the authorization code from the URL
-    const params = new URLSearchParams(window.location.search);
-    const authCode = params.get("code");
+<script>
+const params = new URLSearchParams(window.location.search);
 
-    // Send the code to the desktop application
-    if (authCode) {
-      fetch("http://localhost:5000/", {
+const authCode = params.get("code");
+
+if (authCode) {
+
+    fetch("http://localhost:5055/callback", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: authCode })
-      });
-    }
-    
-    document.body.innerText = "You can close this window.";
-  </script>
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            code: authCode
+        })
+    })
+    .then(() => {
+        document.body.innerHTML =
+            "<h2>Authentication Complete</h2><p>You may now close this window.</p>";
+    })
+    .catch(err => {
+        document.body.innerHTML =
+            "<h2>Authentication Failed</h2><p>" +
+            err +
+            "</p>";
+    });
+}
+</script>
 </body>
 </html>
