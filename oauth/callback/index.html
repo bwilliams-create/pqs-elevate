@@ -3,41 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <title>Authentication Complete</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 40px; }
-  </style>
 </head>
 <body>
-  <h2>Authentication Complete</h2>
-  <p>You may now close this window.</p>
+
+<h2>Completing authentication...</h2>
 
 <script>
-const params = new URLSearchParams(window.location.search);
 
-const authCode = params.get("code");
+const params =
+    new URLSearchParams(window.location.search);
 
-if (authCode) {
+const code =
+    params.get("code");
 
-    fetch("http://localhost:5055/callback", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            code: authCode
-        })
-    })
-    .then(() => {
-        document.body.innerHTML =
-            "<h2>Authentication Complete</h2><p>You may now close this window.</p>";
-    })
-    .catch(err => {
-        document.body.innerHTML =
-            "<h2>Authentication Failed</h2><p>" +
-            err +
-            "</p>";
-    });
+if (code)
+{
+    window.location.href =
+        "http://localhost:5055/callback?code=" +
+        encodeURIComponent(code);
 }
+else
+{
+    document.body.innerHTML =
+        "<h2>Authorization code missing.</h2>";
+}
+
 </script>
+
 </body>
 </html>
